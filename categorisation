@@ -1,0 +1,200 @@
+__author__ = 'deepthi'
+
+import pandas as pd
+import numpy
+from nltk.corpus import wordnet
+
+clothes = pd.read_csv("/Users/deepthi/Desktop/word_similarity/clothing1.csv")
+footwear = pd.read_csv("/Users/deepthi/Desktop/word_similarity/footwear.csv")
+watchsun = pd.read_csv("/Users/deepthi/Desktop/word_similarity/watch.csv")
+lin = pd.read_csv("/Users/deepthi/Desktop/word_similarity/lingerie.csv")
+accessories = pd.read_csv("/Users/deepthi/Desktop/word_similarity/accessories.csv")
+data = pd.read_csv("/Users/deepthi/Desktop/word_similarity/word_sim_max.csv")
+
+
+
+###
+def clothing_sim(word1):
+    d = []
+    clothes_sim = []
+    if word1 in clothes["clothing"]:
+        clothes_sim = 1
+        # for i in clothes["clothing"]:
+        #     clothes_sim.append(data[data.ix[:,0]==word1][i][0])
+
+
+    else:
+        for i in clothes["clothing"]:
+            sense1 =  wordnet.synsets(i)
+            sense2 =  wordnet.synsets(word1)
+            for k in sense1:
+                for l in sense2:
+                    d.append(wordnet.wup_similarity(k,l))
+
+        try:
+            clothes_sim = max(d)
+        except:
+            "not in clothing"
+
+    clothes_word_similarity = numpy.mean(clothes_sim)
+    return clothes_word_similarity
+
+
+def footwear_sim(word1):
+    d = []
+    footwear_sim = []
+    if word1 in footwear["footwear"]:
+        footwear_sim = 1
+        # for i in footwear["footwear"]:
+        #     footwear_sim.append(data[data.ix[:,0]==word1][i][0])
+
+
+    else:
+        for i in footwear["footwear"]:
+            sense1 =  wordnet.synsets(i)
+            sense2 =  wordnet.synsets(word1)
+            for k in sense1:
+                for l in sense2:
+                    d.append(wordnet.wup_similarity(k,l))
+
+        try:
+            footwear_sim = max(d)
+        except:
+            "not in footwear"
+
+    footwear_word_similarity = numpy.mean(footwear_sim)
+    return footwear_word_similarity
+
+
+def lingerie(word1):
+    d = []
+    lingerie_sim = []
+    if word1 in lin["lingerie"]:
+        lingerie_sim = 1
+        # for i in lin["lingerie"]:
+        #     lingerie_sim.append(data[data.ix[:,0]==word1][i][0])
+
+
+    else:
+        for i in lin["lingerie"]:
+            sense1 =  wordnet.synsets(i)
+            sense2 =  wordnet.synsets(word1)
+            for k in sense1:
+                for l in sense2:
+                    d.append(wordnet.wup_similarity(k,l))
+
+        try:
+            lingerie_sim = max(d)
+        except:
+            "not in lin"
+
+    footwear_word_similarity = numpy.mean(lingerie_sim)
+    return footwear_word_similarity
+
+
+def watchsun_sim(word1):
+    d = []
+    watch_sim = []
+    if word1 in watchsun["watch"]:
+        watch_sim = 1
+        # for i in watchsun["watch"]:
+        #     watch_sim.append(data[data.ix[:,0]==word1][i][0])
+        #
+
+    else:
+        for i in watchsun["watch"]:
+            sense1 =  wordnet.synsets(i)
+            sense2 =  wordnet.synsets(word1)
+            for k in sense1:
+                for l in sense2:
+                    d.append(wordnet.wup_similarity(k,l))
+
+        try:
+            watch_sim = max(d)
+        except:
+            "not in watches"
+
+
+
+
+    watch_word_similarity = numpy.mean(watch_sim)
+    return watch_word_similarity
+
+
+
+
+
+def access(word1):
+    d = []
+    acc_sim = []
+    if word1 in accessories["accessories"]:
+        acc_sim = 1
+        # for i in accessories["accessories"]:
+        #     acc_sim.append(data[data.ix[:,0]==word1][i][0])
+
+
+    else:
+        for i in accessories["accessories"]:
+            sense1 =  wordnet.synsets(i)
+            sense2 =  wordnet.synsets(word1)
+            for k in sense1:
+                for l in sense2:
+                    d.append(wordnet.wup_similarity(k,l))
+
+        try:
+            acc_sim = max(d)
+        except:
+            "not in acc"
+
+
+
+
+    watch_word_similarity = numpy.mean(acc_sim)
+    return watch_word_similarity
+
+
+
+
+
+def category(word1):
+    a1 = clothing_sim(word1)
+    a2 = footwear_sim(word1)
+    a3 = watchsun_sim(word1)
+    a4 = lingerie(word1)
+    a5 = access(word1)
+
+
+    max_value = max(a1,a2,a3,a4,a5)
+    if max_value == a1:
+        print "clothing",a1
+    elif max_value == a2:
+        print "footwear",a2
+    elif max_value == a3:
+        print "watches&sunglasses",a3
+    elif max_value == a4:
+        print "lingerie",a4
+    elif max_value == a5:
+        print "accessories",a5
+    else:
+        print "not a category"
+
+def output(word1):
+    multiple = []
+    a = word1
+
+
+    b = a.split(' ')
+    if len(b) == 1:
+        print category(a)
+    if len(b) > 1:
+        try:
+            print category(b)
+        except:
+            for i in b:
+                multiple.append(category(i))
+
+
+
+output("sundial")
+
+
